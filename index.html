@@ -4,21 +4,125 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mansha Tarot</title>
-    <link rel="stylesheet" href="styles.css">
-    <script src="script.js" defer></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: url('star-background.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: #fff;
+            text-align: center;
+        }
+        .gold-theme {
+            background-color: gold;
+            color: black;
+        }
+        .dark-theme {
+            background-color: black;
+            color: white;
+        }
+        .tarot-card {
+            width: 150px;
+            height: 250px;
+            margin: 10px;
+            display: inline-block;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+        .tarot-card:hover {
+            transform: rotateY(180deg);
+        }
+        .card-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+        }
+        .card-back {
+            transform: rotateY(180deg);
+        }
+        .shuffle-button {
+            padding: 10px 20px;
+            background-color: #444;
+            color: #f9f9f9;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .card-spread {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+        }
+        @media (max-width: 600px) {
+            .tarot-card {
+                width: 100px;
+                height: 170px;
+            }
+        }
+    </style>
 </head>
 <body>
-    <header>
-        <h1>Mansha Tarot Reading</h1>
-    </header>
-    <main>
-        <div id="tarot-cards">
-            <!-- Tarot cards displayed here -->
-        </div>
-        <button id="draw-cards">Draw Cards</button>
-    </main>
-    <footer>
-        <p>© 2026 Mansha Tarot</p>
-    </footer>
+    <h1>Mansha Tarot</h1>
+    <button class="shuffle-button" onclick="shuffleCards()">Shuffle Cards</button>
+    <div id="tarot-cards" style="display: flex; flex-wrap: wrap; justify-content: center;"></div>
+    <div class="card-spread">
+        <div class="card" id="past"></div>
+        <div class="card" id="present"></div>
+        <div class="card" id="future"></div>
+    </div>
+    <script>
+        const cards = [
+            { name: 'The Fool', hindi: 'बेवकूफ', meaning: 'New beginnings and adventures' },
+            { name: 'The Magician', hindi: 'जादूगर', meaning: 'Skill and resourcefulness' },
+            { name: 'The High Priestess', hindi: 'महायाजक', meaning: 'Intuition and unconscious knowledge' },
+            { name: 'The Empress', hindi: 'सम्राज्ञी', meaning: 'Fertility and femininity' },
+            { name: 'The Emperor', hindi: 'सम्राट', meaning: 'Authority and structure' },
+            { name: 'The Hierophant', hindi: 'गुरु', meaning: 'Tradition and spiritual guidance' },
+            { name: 'The Lovers', hindi: 'प्रेमी', meaning: 'Union and harmony' },
+            { name: 'The Chariot', hindi: 'रथ', meaning: 'Willpower and determination' },
+            { name: 'Strength', hindi: 'शक्ति', meaning: 'Courage and influence' },
+            { name: 'The Hermit', hindi: 'अविवाहित', meaning: 'Solitude and introspection' },
+            { name: 'Wheel of Fortune', hindi: 'किस्मत', meaning: 'Cycles and fate' },
+            { name: 'Justice', hindi: 'न्याय', meaning: 'Fairness and truth' },
+            { name: 'The Hanged Man', hindi: 'लटके आदमी', meaning: 'Sacrifice and release' },
+            { name: 'Death', hindi: 'मौत', meaning: 'Endings and transitions' },
+            { name: 'Temperance', hindi: 'संतुलन', meaning: 'Balance and moderation' },
+            { name: 'The Devil', hindi: 'शैतान', meaning: 'Addiction and materialism' },
+            { name: 'The Tower', hindi: 'टॉवर', meaning: 'Disruption and awakening' },
+            { name: 'The Star', hindi: 'तारा', meaning: 'Hope and inspiration' },
+            { name: 'The Moon', hindi: 'चाँद', meaning: 'Illusion and fear' },
+            { name: 'The Sun', hindi: 'सूर्य', meaning: 'Success and positivity' },
+            { name: 'Judgment', hindi: 'निर्णय', meaning: 'Reflection and reckoning' },
+            { name: 'The World', hindi: 'दुनिया', meaning: 'Completion and reward' }
+        ];
+
+        function generateCards() {
+            const container = document.getElementById('tarot-cards');
+            cards.forEach(card => {
+                const cardElement = document.createElement('div');
+                cardElement.className = 'tarot-card';
+                cardElement.innerHTML = `
+                    <div class='card-face'>
+                        <h3>${card.name} (${card.hindi})</h3>
+                        <p>${card.meaning}</p>
+                    </div>
+                    <div class='card-back'>
+                        <h3>Card Back</h3>
+                    </div>
+                `;
+                container.appendChild(cardElement);
+            });
+        }
+
+        function shuffleCards() {
+            const shuffled = cards.sort(() => 0.5 - Math.random());
+            const spread = shuffled.slice(0, 3);
+            document.getElementById('past').innerHTML = `<div class='tarot-card'><h3>${spread[0].name} (${spread[0].hindi})</h3><p>${spread[0].meaning}</p></div>`;
+            document.getElementById('present').innerHTML = `<div class='tarot-card'><h3>${spread[1].name} (${spread[1].hindi})</h3><p>${spread[1].meaning}</p></div>`;
+            document.getElementById('future').innerHTML = `<div class='tarot-card'><h3>${spread[2].name} (${spread[2].hindi})</h3><p>${spread[2].meaning}</p></div>`;
+        }
+
+        generateCards();
+    </script>
 </body>
 </html>
